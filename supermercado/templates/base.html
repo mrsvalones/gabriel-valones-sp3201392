@@ -1,0 +1,15 @@
+{% macro csrf() %}<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{% endmacro %}
+
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Mercado Viva{% endblock %} • {{ store_name }}</title>
+<link rel="stylesheet" href="/css/{{ theme }}.css"><script src="/js/app.js" defer></script></head>
+<body><a class="skip" href="#content">Ir para o conteúdo</a>
+{% if current_user %}<aside class="sidebar"><a class="brand" href="/">MV<span>mercado<span class="brand-light">viva</span></span></a>
+<div class="institutional-brand"><img src="/images/ifsp.png" alt="Instituto Federal de São Paulo — IFSP" width="415" height="481"></div>
+<p class="eyebrow">GESTÃO DO SUPERMERCADO</p><nav aria-label="Navegação principal">
+<a href="/">◈ Visão geral</a><a href="/pos">▣ Frente de caixa</a><a href="/cash">▤ Movimento de caixa</a><a href="/sales">↗ Vendas e relatórios</a>
+{% if current_user.role=='admin' %}<p class="nav-label">ADMINISTRAÇÃO</p><a href="/products">◉ Produtos</a><a href="/stock">▦ Estoque</a><a href="/purchases">⇣ Compras</a><a href="/masters">▥ Categorias e fornecedores</a><a href="/finance">◒ Financeiro</a><a href="/users">♙ Equipe e acessos</a><a href="/audit">≡ Auditoria</a>{% endif %}<a href="/account">⚙ Minha senha</a></nav>
+<div class="sidebar-foot"><strong>{{ current_user.name }}</strong><small>{{ 'Administrador' if current_user.role=='admin' else 'Operador de caixa' }}</small><form action="/logout" method="post">{{ csrf() }}<button class="ghost">Sair da conta</button></form></div></aside>{% endif %}
+<div class="workspace {{ 'guest' if not current_user else '' }}"><header class="topbar">{% if not current_user %}<img class="institutional-guest" src="/images/ifsp.png" alt="Instituto Federal de São Paulo — IFSP" width="415" height="481">{% endif %}<span>{{ store_name }}</span><div class="actions"><span class="badge">AMBIENTE ACADÊMICO • SIMULAÇÃO</span><form action="/theme" method="post">{{ csrf() }}<label class="sr-only" for="theme">Tema visual</label><select id="theme" name="theme"><option value="aurora" {{ 'selected' if theme=='aurora' }}>Aurora • roxo</option><option value="tropical" {{ 'selected' if theme=='tropical' }}>Tropical • verde</option></select><button class="small">Aplicar</button></form></div></header>
+<main id="content">{% for category,message in get_flashed_messages(with_categories=true) %}<div class="notice {{ category }}" role="status">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main><footer>Mercado Viva · Laboratório de Programação 1 · Todos os pagamentos são fictícios.</footer></div></body></html>
