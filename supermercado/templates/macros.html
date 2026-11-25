@@ -1,0 +1,4 @@
+{% macro token() %}<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{% endmacro %}
+{% macro password() %}<label>Confirme sua senha atual<input type="password" name="current_password" required autocomplete="current-password"></label>{% endmacro %}
+{% macro dates(start,end) %}<div class="filters"><label>De<input type="date" name="start" value="{{ start }}" required></label><label>Até<input type="date" name="end" value="{{ end }}" required></label><button>Filtrar período</button></div>{% endmacro %}
+{% macro heading(kicker,title,subtitle) %}<div class="heading"><p class="eyebrow">{{ kicker }}</p><h1>{{ title }}</h1><p>{{ subtitle }}</p></div>{% endmacro %}
