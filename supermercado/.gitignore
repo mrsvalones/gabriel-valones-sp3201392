@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+*.db
+*.db-*
+.pytest_cache/
+.vercel/
+backups/
+ENTREGA_PRIVADA*
